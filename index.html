@@ -160,7 +160,7 @@
       </div>
       <div class="item">
         <p class="q">A base de compras tem o utm/source da própria venda (do pedido), não só o último toque do lead?</p>
-        <p class="a">Sim. A base traz <code>utm_source_compra</code> e <code>utm_campaign_compra</code> vindos do <b>próprio pedido</b>, separados do utm do último toque do lead. Dá pra analisar o canal da venda e o canal do lead lado a lado.</p>
+        <p class="a">O campo existe (<code>utm_source_compra</code>, do pedido), mas no Marketing Cloud ele vem <b>93% vazio</b> — então não serve como fonte de canal da venda. Por isso construímos o <b>canal atribuído</b> (última captação antes da compra, seção abaixo), e o last-click real do checkout fica com o data lake. As duas visões se completam.</p>
       </div>
       <div class="item">
         <p class="q">A base de compras é melhor que a vw_dados_vendas? Conseguimos puxar todas as vendas com valores?</p>
@@ -208,15 +208,15 @@
   </section>
 
   <section>
-    <h2>Canal da venda (last-click atribuído)</h2>
-    <p class="note">O utm gravado no próprio pedido vem quase todo vazio no Marketing Cloud (só 6,7%). Então reconstruímos o canal por <strong>last-click</strong>: para cada comprador, o utm do último toque de marketing antes da data da compra.</p>
+    <h2>Canal atribuído da venda (última captação antes da compra)</h2>
+    <p class="note">Duas coisas distintas: o <strong>last-click do pedido</strong> (o ponto de contato que efetivou a venda, gravado no checkout — fica no data lake) e o <strong>canal atribuído</strong> que construímos aqui: a última <strong>captação</strong> de marketing (formulário/landing) que a pessoa converteu antes da data da compra. Um mede o fechamento; o outro, o caminho de marketing que construiu a venda. Como o utm do pedido vem quase todo vazio no Marketing Cloud (6,7%), o atribuído é a visão possível deste lado.</p>
     <div class="kpis">
-      <div class="kpi"><div class="v">6,7% → 22%</div><div class="l">cobertura de canal: do utm do pedido para o last-click atribuído</div></div>
+      <div class="kpi"><div class="v">6,7% → 22%</div><div class="l">cobertura de canal: do utm do pedido para o canal atribuído</div></div>
       <div class="kpi"><div class="v">~44%</div><div class="l">cobertura entre os compradores que são leads nossos</div></div>
       <div class="kpi"><div class="v">Meta</div><div class="l">canal que mais precede a compra (100.773 compradores)</div></div>
       <div class="kpi"><div class="v">~50%</div><div class="l">dos compradores nunca foi lead: canal só via checkout</div></div>
     </div>
-    <p class="leitura">Capturamos <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px">utm_source</span> e <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px">utm_campaign</span> da venda por atribuição de último toque, cobrindo o que dá pelo lado do marketing. Os demais (venda direta, sem passar pela captação) precisam do last-click real do checkout, do lado financeiro. As duas fontes se completam por e-mail.</p>
+    <p class="leitura">Temos <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px">utm_source</span> e <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px">utm_campaign</span> da última captação antes de cada venda, cobrindo o que dá pelo lado do marketing. O last-click real do fechamento (checkout) vem do data lake (<span style="font-family:ui-monospace,Menlo,monospace;font-size:12px">vw_dados_vendas</span>). As duas fontes se completam por e-mail: canal que fechou a venda de um lado, caminho de marketing que a construiu do outro.</p>
   </section>
 
   <section>
@@ -239,7 +239,7 @@
           <tr>
             <td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:600">claude_sbx_canal_atribuido</td>
             <td class="num">832.650</td>
-            <td>Canal da venda por <b>last-click atribuído</b> (o último toque de marketing antes da compra), 1 linha por comprador. <span class="mono">utm_source_atribuido</span>, <span class="mono">utm_campaign_atribuido</span>, <span class="mono">canal_atribuido</span>, <span class="mono">data_toque_atribuido</span>, <span class="mono">dias_toque_ate_compra</span></td>
+            <td>Canal <b>atribuído</b> da venda (a última <b>captação</b> de marketing antes da compra — não é o last-click do checkout), 1 linha por comprador. <span class="mono">utm_source_atribuido</span>, <span class="mono">utm_campaign_atribuido</span>, <span class="mono">canal_atribuido</span>, <span class="mono">data_toque_atribuido</span>, <span class="mono">dias_toque_ate_compra</span></td>
           </tr>
           <tr>
             <td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:600">claude_sbx_lead_attribution</td>
