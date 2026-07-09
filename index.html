@@ -79,6 +79,7 @@
   .qa .a{font-size:13.5px;color:var(--ink-2);margin:0;}
   .qa .a b{color:var(--ink);}
   .qa .a code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--mono-bg);padding:1px 6px;border-radius:5px;}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:var(--mono-bg);padding:1px 5px;border-radius:4px;white-space:nowrap;}
   .foot{margin-top:52px;padding-top:16px;border-top:1px solid var(--grid);font-size:12px;color:var(--ink-3);max-width:84ch;}
 </style>
 
@@ -204,6 +205,34 @@
       <div class="kpi"><div class="v">50%</div><div class="l">dos compradores nunca passaram pela captação</div></div>
     </div>
     <p class="leitura"><b>Sobre a fonte de vendas:</b> nossa base de compras (SFMC) responde bem "quem comprou, quando, quantas vezes e por qual canal" — inclusive o <b>utm do próprio pedido</b>, separado do último toque do lead. Para <b>valor/receita oficial</b>, o ideal é cruzar por e-mail com a <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px">financeiro_views.vw_dados_vendas</span>, a fonte de verdade financeira. Assunto pra alinharmos.</p>
+  </section>
+
+  <section>
+    <h2>Bases no Marketing Cloud (pra consulta via API)</h2>
+    <p class="note">As Data Extensions que produzimos, caso você queira consultar direto. Ficam na BU <strong>Estratégia Concursos</strong>, pasta <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px">Claude_Sandbox</span> (é preciso ter acesso de API a essa BU). Todas com 1 linha por e-mail.</p>
+    <div class="card tblwrap">
+      <table>
+        <thead><tr><th>Data Extension</th><th class="num">Linhas</th><th>O que é / colunas-chave</th></tr></thead>
+        <tbody>
+          <tr>
+            <td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:600">claude_sbx_lead_master_full</td>
+            <td class="num">5.967.971</td>
+            <td>Base principal, empresa toda. Origem: <span class="mono">vertical_origem, area_origem, utm_source/campaign_origem, data_origem, bu_origem</span> (idem _registro). Reach: <span class="mono">r_ec, r_oab, r_ecj, r_evest, r_emil, r_emed, n_verts_reach</span>. BU: <span class="mono">em_concursos/emed/emil/evest, n_bus</span>. Ainda: <span class="mono">is_new, entrada_estimada, qtd_passagens</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:600">claude_sbx_leads_x_compras</td>
+            <td class="num">5.781.987</td>
+            <td>Cruzamento leads × compras. <span class="mono">comprou, qtd_compras, primeira_compra, ultima_compra, tipo_primeira_compra, cupom, utm_source_compra, utm_campaign_compra (canal do pedido), valor_total, dias_ate_compra, mesma_vertical, lead_conhecido</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:600">claude_sbx_lead_attribution</td>
+            <td class="num">5.362.928</td>
+            <td>Base de atribuição da BU Concursos (alimenta a master). Origem × registro por e-mail, com <span class="mono">area_*_crua</span> (rótulo original) e <span class="mono">fonte</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="leitura" style="font-size:12.5px;color:var(--ink-3)">Dica de leitura das colunas: <b>_origem</b> = 1º toque da pessoa · <b>_registro</b> = toque mais recente · <b>r_*</b> = 1 quando a pessoa tocou aquela vertical em qualquer momento (o "reach").</p>
   </section>
 
   <div class="foot">
